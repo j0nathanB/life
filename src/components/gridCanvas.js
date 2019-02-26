@@ -13,17 +13,25 @@ class GridCanvas extends Component {
       y: 0,
       generation: this.grid.getGen(),
     }
-    this.heatmap = true;
-    this.stopRequested = false;
+    this.heatmap = false;
+    this.stopRequested = true;
     this.update = this.update.bind(this);
     this.start = this.start.bind(this);
     this.startOver = this.startOver.bind(this);
     this.clear = this.clear.bind(this);
     this.drawGrid = this.drawGrid.bind(this);
+    this.startButtonHandler = this.startButtonHandler.bind(this);
+    this.stopButtonHandler = this.stopButtonHandler.bind(this);
+    this.clearButtonHandler = this.clearButtonHandler.bind(this);
+    this.resetButtonHandler = this.resetButtonHandler.bind(this);
+    this.heatmapButtonHandler = this.heatmapButtonHandler.bind(this);
   }
   
   componentDidMount() {
-    requestAnimationFrame(this.update)
+    this.drawGrid();
+    if (!this.stopRequested) {
+      requestAnimationFrame(this.update)
+    }
   }
 
   startOver() {
@@ -102,10 +110,39 @@ class GridCanvas extends Component {
   }
 
   start() {
-    // prevent 'start' from requesting new anim frame if not stopped, which slows down performance
+    // when running, prevent 'start' from requesting new frame performance
     if (this.stopRequested) {
       this.stopRequested = false;
       requestAnimationFrame(this.update);
+    }
+  }
+
+  startButtonHandler(e) {
+    e.preventDefault();
+    this.start();
+  }
+
+  stopButtonHandler(e) {
+    e.preventDefault();
+    this.stopRequested = true;
+  }
+
+  clearButtonHandler(e) {
+    e.preventDefault();
+    this.clear()
+  }
+
+  resetButtonHandler(e) {
+    e.preventDefault();
+    this.startOver(); 
+  }
+
+  heatmapButtonHandler(e) {
+    e.preventDefault();
+    this.heatmap = !this.heatmap;
+    // toggle heatmap when paused
+    if (this.stopRequested) {
+      this.drawGrid();
     }
   }
 
@@ -117,13 +154,11 @@ class GridCanvas extends Component {
           <h3>Generation: { this.state.generation }</h3>
         </div>
         <div id="buttonContainer">
-          <button onClick={() => { this.start(); }}><span>Start</span></button>
-          <button onClick={() => { this.stopRequested = true; }}><span>Stop</span></button>
-          <button onClick={(e) => { e.preventDefault(); 
-            this.clear()}}><span>Clear</span></button>
-            <button onClick={() => { this.startOver(); } }><span>Reset</span></button>
-          <button onClick={(e) => { e.preventDefault(); 
-            this.heatmap = !this.heatmap}}><span>Toggle Heatmap</span></button>
+          <button onClick={this.startButtonHandler}><span>Start</span></button>
+          <button onClick={this.stopButtonHandler}><span>Stop</span></button>
+          <button onClick={this.clearButtonHandler}><span>Clear</span></button>
+          <button onClick={this.resetButtonHandler }><span>Reset</span></button>
+          <button onClick={this.heatmapButtonHandler}><span>Toggle Heatmap</span></button>
         </div>
 
         

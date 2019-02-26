@@ -7,7 +7,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      res: 2,
       COLS: 500,
       ROWS: 500,
     };
