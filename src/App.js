@@ -17,7 +17,7 @@ class App extends Component {
       <div className="App">
         <h1>Conway's Game of Life</h1>
         <GridCanvas width={this.state.COLS} height={this.state.ROWS}/>
-        <h4>About this Game</h4>
+        {/* <h4>About this Game</h4> */}
      </div>
     );
   }
