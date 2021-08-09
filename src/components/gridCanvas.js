@@ -15,6 +15,7 @@ class GridCanvas extends Component {
     }
     this.heatmap = false;
     this.stopRequested = true;
+    this.buttonText = "Play"
     this.update = this.update.bind(this);
     this.start = this.start.bind(this);
     this.startOver = this.startOver.bind(this);
@@ -127,10 +128,10 @@ class GridCanvas extends Component {
     this.stopRequested = true;
   }
 
-  clearButtonHandler(e) {
-    e.preventDefault();
-    this.clear()
-  }
+  // clearButtonHandler(e) {
+  //   e.preventDefault();
+  //   this.clear()
+  // }
 
   resetButtonHandler(e) {
     e.preventDefault();
@@ -146,6 +147,17 @@ class GridCanvas extends Component {
     }
   }
 
+  playbackButtonHandler(e) {
+    e.preventDefault();
+    if (this.stopRequested) {
+      this.start()
+      this.buttonText = "Pause"
+    } else {
+      this.stopRequested = True
+      this.buttonText = "Play"
+    }
+  }
+
   render() {
     return (
       <div id="gridCanvas" ref="elem">
@@ -154,9 +166,9 @@ class GridCanvas extends Component {
           <h3>Generation: { this.state.generation }</h3>
         </div>
         <div id="buttonContainer">
-          <button onClick={this.startButtonHandler}><span>Start</span></button>
-          <button onClick={this.stopButtonHandler}><span>Stop</span></button>
-          <button onClick={this.clearButtonHandler}><span>Clear</span></button>
+          <button onClick={this.playbackButtonHandler}><span>{ this.buttonText }</span></button>
+          {/* <button onClick={this.stopButtonHandler}><span>Stop</span></button> */}
+          {/* <button onClick={this.clearButtonHandler}><span>Clear</span></button> */}
           <button onClick={this.resetButtonHandler }><span>Reset</span></button>
           <button onClick={this.heatmapButtonHandler}><span>Toggle Heatmap</span></button>
         </div>
