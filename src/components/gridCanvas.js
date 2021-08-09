@@ -153,7 +153,7 @@ class GridCanvas extends Component {
       this.start()
       this.buttonText = "Pause"
     } else {
-      this.stopRequested = True
+      this.stopRequested = true
       this.buttonText = "Play"
     }
   }
