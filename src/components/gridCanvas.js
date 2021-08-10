@@ -26,6 +26,7 @@ class GridCanvas extends Component {
     // this.clearButtonHandler = this.clearButtonHandler.bind(this);
     this.resetButtonHandler = this.resetButtonHandler.bind(this);
     this.heatmapButtonHandler = this.heatmapButtonHandler.bind(this);
+    this.playbackButtonHandler = this.playbackButtonHandler.bind(this)
   }
   
   componentDidMount() {
