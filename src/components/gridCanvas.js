@@ -40,7 +40,7 @@ class GridCanvas extends Component {
     this.stopRequested = false;
     this.grid = new Grid(this.props.width, this.props.height);
     this.grid.buildGrid();
-
+    this.buttonText = "Pause"
     requestAnimationFrame(this.update);
   }
 
