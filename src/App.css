@@ -2,12 +2,21 @@
 
 .App {
   text-align: center;
-  height: 80vh
+  height: 85vh
 }
 
 body {
   background: #EEE;
   font: normal 22px/25px "Londrina Solid", sans-serif;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+h1 {
+  margin-top: 0px;
+  padding-bottom: 0.75em;
 }
 
 #gridCanvas {
@@ -43,6 +52,11 @@ button:active {
   top: 4px;
   padding-bottom: 0px;
   box-shadow: 0 1px 0 #000;
+}
+
+button:disabled {
+  color: #aaa;
+  pointer-events: none;
 }
 
 button {

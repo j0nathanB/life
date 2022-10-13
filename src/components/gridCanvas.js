@@ -37,11 +37,12 @@ class GridCanvas extends Component {
   }
 
   startOver() {
-    this.stopRequested = false;
     this.grid = new Grid(this.props.width, this.props.height);
     this.grid.buildGrid();
-    this.buttonText = "Pause"
-    requestAnimationFrame(this.update);
+    this.setState({ generation: this.grid.getGen() }, function(){
+      console.log(this.state.generation)
+      requestAnimationFrame(this.update);
+    });
   }
 
   clear() {
@@ -103,10 +104,9 @@ class GridCanvas extends Component {
 
   update() {
     this.drawGrid();
-    this.grid.nextGen();
-    this.setState({ generation: this.grid.getGen() })
-
     if (!this.stopRequested) {
+      this.grid.nextGen();
+      this.setState({ generation: this.grid.getGen() })
       requestAnimationFrame(this.update);
     }
   }
@@ -129,22 +129,22 @@ class GridCanvas extends Component {
     this.stopRequested = true;
   }
 
-  // clearButtonHandler(e) {
-  //   e.preventDefault();
-  //   this.clear()
-  // }
-
   resetButtonHandler(e) {
     e.preventDefault();
+    this.stopRequested = true;
     this.startOver(); 
+    this.buttonText = "Play"
   }
 
   heatmapButtonHandler(e) {
     e.preventDefault();
-    this.heatmap = !this.heatmap;
-    // toggle heatmap when paused
-    if (this.stopRequested) {
-      this.drawGrid();
+    // do nothing if starting from scratch
+    if (this.state.generation !== 0) {
+      this.heatmap = !this.heatmap;
+      // toggle heatmap when paused
+      if (this.stopRequested) {
+        this.drawGrid();
+      }
     }
   }
 
@@ -168,10 +168,8 @@ class GridCanvas extends Component {
         </div>
         <div id="buttonContainer">
           <button onClick={this.playbackButtonHandler}><span>{ this.buttonText }</span></button>
-          {/* <button onClick={this.stopButtonHandler}><span>Stop</span></button> */}
-          {/* <button onClick={this.clearButtonHandler}><span>Clear</span></button> */}
           <button onClick={this.resetButtonHandler }><span>Reset</span></button>
-          <button onClick={this.heatmapButtonHandler}><span>Toggle Heatmap</span></button>
+          <button disabled={this.state.generation === 0} onClick={this.heatmapButtonHandler}><span>Toggle Heatmap</span></button>
         </div>
 
         
