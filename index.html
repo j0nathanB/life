@@ -1,1 +1,432 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"/><link rel="shortcut icon" href="/life/favicon.ico"/><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"/><meta name="theme-color" content="#000000"/><link rel="manifest" href="/life/manifest.json"/><title>Game of Life</title><link href="/life/static/css/main.f383db9f.chunk.css" rel="stylesheet"></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"></div><script>!function(l){function e(e){for(var r,t,n=e[0],o=e[1],u=e[2],f=0,i=[];f<n.length;f++)t=n[f],p[t]&&i.push(p[t][0]),p[t]=0;for(r in o)Object.prototype.hasOwnProperty.call(o,r)&&(l[r]=o[r]);for(s&&s(e);i.length;)i.shift()();return c.push.apply(c,u||[]),a()}function a(){for(var e,r=0;r<c.length;r++){for(var t=c[r],n=!0,o=1;o<t.length;o++){var u=t[o];0!==p[u]&&(n=!1)}n&&(c.splice(r--,1),e=f(f.s=t[0]))}return e}var t={},p={1:0},c=[];function f(e){if(t[e])return t[e].exports;var r=t[e]={i:e,l:!1,exports:{}};return l[e].call(r.exports,r,r.exports,f),r.l=!0,r.exports}f.m=l,f.c=t,f.d=function(e,r,t){f.o(e,r)||Object.defineProperty(e,r,{enumerable:!0,get:t})},f.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},f.t=function(r,e){if(1&e&&(r=f(r)),8&e)return r;if(4&e&&"object"==typeof r&&r&&r.__esModule)return r;var t=Object.create(null);if(f.r(t),Object.defineProperty(t,"default",{enumerable:!0,value:r}),2&e&&"string"!=typeof r)for(var n in r)f.d(t,n,function(e){return r[e]}.bind(null,n));return t},f.n=function(e){var r=e&&e.__esModule?function(){return e.default}:function(){return e};return f.d(r,"a",r),r},f.o=function(e,r){return Object.prototype.hasOwnProperty.call(e,r)},f.p="/life/";var r=window.webpackJsonp=window.webpackJsonp||[],n=r.push.bind(r);r.push=e,r=r.slice();for(var o=0;o<r.length;o++)e(r[o]);var s=n;a()}([])</script><script src="/life/static/js/2.0c45c232.chunk.js"></script><script src="/life/static/js/main.bb7bd0b9.chunk.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"/>
+    <meta name="theme-color" content="#000000"/>
+    <title>Conway's Game of Life</title>
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Patrick+Hand|Londrina+Solid:300);
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: #eee;
+            font: normal 22px/25px 'Londrina Solid', sans-serif;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+        
+        .App {
+            text-align: center;
+            height: 100vh;
+        }
+        
+        h1 {
+            margin-top: 1.5em;
+            padding-bottom: 0.75em;
+        }
+        
+        #gridCanvas {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-content: center;
+        }
+        
+        canvas {
+            border-radius: 5px;
+            border: 2px solid #000;
+            align-self: center;
+        }
+        
+        #buttonContainer {
+            align-self: center;
+        }
+        
+        button {
+            position: relative;
+            float: left;
+            font: normal 22px/25px 'Patrick Hand', sans-serif;
+            margin-right: 10px;
+            text-transform: uppercase;
+            color: #000;
+            text-decoration: none;
+            padding: 0 0 2px;
+            border-radius: 5px;
+            border-style: none;
+            box-shadow: 0 2px 0 #000;
+            transition: padding .1s, box-shadow .1s, top .1s;
+            background-image: url("data:image/gif;base64,R0lGODlhBAAEAIABAAAAAAAAACH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS4wLWMwNjEgNjQuMTQwOTQ5LCAyMDEwLzEyLzA3LTEwOjU3OjAxICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1LjEgV2luZG93cyIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo5NUY1OENCRDdDMDYxMUUyOTEzMEE1MEM5QzM0NDVBMyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo5NUY1OENCRTdDMDYxMUUyOTEzMEE1MEM5QzM0NDVBMyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjk1RjU4Q0JCN0MwNjExRTI5MTMwQTUwQzlDMzQ0NUEzIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjk1RjU4Q0JDN0MwNjExRTI5MTMwQTUwQzlDMzQ0NUEzIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+Af/+/fz7+vn49/b19PPy8fDv7u3s6+rp6Ofm5eTj4uHg397d3Nva2djX1tXU09LR0M/OzczLysnIx8bFxMPCwcC/vr28u7q5uLe2tbSzsrGwr66trKuqqainpqWko6KhoJ+enZybmpmYl5aVlJOSkZCPjo2Mi4qJiIeGhYSDgoGAf359fHt6eXh3dnV0c3JxcG9ubWxramloZ2ZlZGNiYWBfXl1cW1pZWFdWVVRTUlFQT05NTEtKSUhHRkVEQ0JBQD8+PTw7Ojk4NzY1NDMyMTAvLi0sKyopKCcmJSQjIiEgHx4dHBsaGRgXFhUUExIREA8ODQwLCgkIBwYFBAMCAQAAIfkEAQAAAQAsAAAAAAQABAAAAgYEEpdoeQUAOw==");
+        }
+        
+        button span {
+            background: #fff;
+            display: block;
+            padding: 5px 15px;
+            border-radius: 5px;
+            border: 2px solid #000;
+            min-width: 60px;
+            box-sizing: border-box;
+        }
+        
+        #playButton span {
+            width: 85px;
+        }
+        
+        button:hover {
+            box-shadow: 0 2px 0 #000, 0 2px 0 2px #f03755;
+        }
+        
+        button:active {
+            top: 4px;
+            padding-bottom: 0;
+            box-shadow: 0 1px 0 #000;
+        }
+        
+        button:disabled {
+            color: #aaa;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="App">
+        <h1>Conway's Game of Life</h1>
+        <div id="gridCanvas">
+            <canvas id="canvas" width="500" height="500"></canvas>
+            <div>
+                <h3>Generation: <span id="generation">0</span></h3>
+            </div>
+            <div id="buttonContainer">
+                <button id="playButton">
+                    <span>Play</span>
+                </button>
+                <button id="resetButton">
+                    <span>Reset</span>
+                </button>
+                <button id="heatmapButton">
+                    <span>Toggle Heatmap</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cell class to represent individual cells
+        class Cell {
+            constructor() {
+                this.currentState = Math.floor(Math.random() * 2);
+                this.total = 0;
+            }
+            
+            setState(state) {
+                this.currentState = state;
+                this.total += state;
+            }
+        }
+
+        // Grid class to manage the game grid
+        class Grid {
+            constructor(width, height) {
+                this.width = width;
+                this.height = height;
+                this.currentBufferIndex = 0;
+                this.buffer = [this.createBuffer(width, height), this.createBuffer(width, height)];
+                this.clear();
+                this.generation = 0;
+            }
+            
+            createBuffer(width, height) {
+                const buffer = new Array(height);
+                for (let i = 0; i < height; i++) {
+                    buffer[i] = new Array(width);
+                }
+                return buffer;
+            }
+            
+            getCells() {
+                return this.buffer[this.currentBufferIndex];
+            }
+            
+            getGen() {
+                return this.generation;
+            }
+            
+            clear() {
+                this.generation = 0;
+                const cells = this.buffer[this.currentBufferIndex];
+                for (let y = 0; y < this.height; y++) {
+                    for (let x = 0; x < this.width; x++) {
+                        cells[y][x] = new Cell();
+                        cells[y][x].setState(0);
+                    }
+                }
+            }
+            
+            buildGrid() {
+                const cells = this.buffer[this.currentBufferIndex];
+                for (let y = 0; y < this.height; y++) {
+                    for (let x = 0; x < this.width; x++) {
+                        cells[y][x] = new Cell();
+                    }
+                }
+            }
+            
+            countNeighbors(x, y, options = {border: 'zero'}) {
+                const currentCells = this.buffer[this.currentBufferIndex];
+                let count = 0;
+                
+                if (options.border === 'wrap') {
+                    let upY = y - 1;
+                    let downY = y + 1;
+                    let leftX = x - 1;
+                    let rightX = x + 1;
+                    
+                    if (upY < 0) upY = this.height - 1;
+                    if (downY === this.height) downY = 0;
+                    if (leftX < 0) leftX = this.width - 1;
+                    if (rightX === this.width) rightX = 0;
+                    
+                    count = currentCells[upY][leftX].currentState + 
+                            currentCells[upY][x].currentState + 
+                            currentCells[upY][rightX].currentState +
+                            currentCells[y][leftX].currentState + 
+                            currentCells[y][rightX].currentState +
+                            currentCells[downY][leftX].currentState + 
+                            currentCells[downY][x].currentState + 
+                            currentCells[downY][rightX].currentState;
+                } else if (options.border === 'zero') {
+                    for (let dy = -1; dy <= 1; dy++) {
+                        const neighborY = y + dy;
+                        if (neighborY < 0 || neighborY === this.height) continue;
+                        
+                        for (let dx = -1; dx <= 1; dx++) {
+                            const neighborX = x + dx;
+                            if (neighborX < 0 || neighborX === this.width) continue;
+                            if (dx === 0 && dy === 0) continue;
+                            
+                            count += currentCells[neighborY][neighborX].currentState;
+                        }
+                    }
+                } else {
+                    throw new Error('unknown border option' + options.border);
+                }
+                
+                return count;
+            }
+            
+            nextGen() {
+                const nextBufferIndex = this.currentBufferIndex === 0 ? 1 : 0;
+                const currentCells = this.buffer[this.currentBufferIndex];
+                const nextCells = this.buffer[nextBufferIndex];
+                
+                for (let y = 0; y < this.height; y++) {
+                    for (let x = 0; x < this.width; x++) {
+                        const neighbors = this.countNeighbors(x, y);
+                        const currentState = currentCells[y][x].currentState;
+                        
+                        if (typeof nextCells[y][x] === 'undefined') {
+                            nextCells[y][x] = new Cell();
+                        }
+                        
+                        if (currentState === 1) {
+                            if (neighbors < 2 || neighbors > 3) {
+                                nextCells[y][x].setState(0);
+                            } else {
+                                nextCells[y][x].setState(1);
+                            }
+                        } else {
+                            if (neighbors === 3) {
+                                nextCells[y][x].setState(1);
+                            } else {
+                                nextCells[y][x].setState(0);
+                            }
+                        }
+                    }
+                }
+                
+                this.currentBufferIndex = this.currentBufferIndex === 0 ? 1 : 0;
+                this.generation++;
+            }
+        }
+
+        // HSL to RGB conversion for heatmap
+        function hslToRgb(h, s, l) {
+            let r, g, b;
+            
+            if (s === 0) {
+                r = g = b = l; // achromatic
+            } else {
+                const hue2rgb = (p, q, t) => {
+                    if (t < 0) t += 1;
+                    if (t > 1) t -= 1;
+                    if (t < 1/6) return p + (q - p) * 6 * t;
+                    if (t < 1/2) return q;
+                    if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                    return p;
+                };
+                
+                const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                const p = 2 * l - q;
+                r = hue2rgb(p, q, h + 1/3);
+                g = hue2rgb(p, q, h);
+                b = hue2rgb(p, q, h - 1/3);
+            }
+            
+            return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+        }
+
+        // Game class to manage the entire game
+        class GameOfLife {
+            constructor(width, height) {
+                this.width = width;
+                this.height = height;
+                this.grid = new Grid(width, height);
+                this.grid.buildGrid();
+                this.generation = this.grid.getGen();
+                this.heatmap = false;
+                this.stopRequested = true;
+                this.buttonText = "Play";
+                
+                this.canvas = document.getElementById('canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.generationDisplay = document.getElementById('generation');
+                
+                this.setupEventListeners();
+                this.drawGrid();
+            }
+            
+            setupEventListeners() {
+                document.getElementById('playButton').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.playbackButtonHandler();
+                });
+                
+                document.getElementById('resetButton').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.resetButtonHandler();
+                });
+                
+                document.getElementById('heatmapButton').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.heatmapButtonHandler();
+                });
+            }
+            
+            startOver() {
+                this.grid = new Grid(this.width, this.height);
+                this.grid.buildGrid();
+                this.generation = this.grid.getGen();
+                this.generationDisplay.textContent = this.generation;
+                this.update();
+            }
+            
+            clear() {
+                this.grid.clear();
+                this.drawGrid();
+                this.generation = this.grid.getGen();
+                this.generationDisplay.textContent = this.generation;
+                this.stopRequested = true;
+            }
+            
+            drawGrid() {
+                let maxTotal = 0;
+                const cells = this.grid.getCells();
+                const imageData = this.ctx.getImageData(0, 0, this.width, this.height);
+                
+                // Find max total for heatmap scaling
+                for (let y = 0; y < this.height; y++) {
+                    for (let x = 0; x < this.width; x++) {
+                        const cell = cells[y][x];
+                        if (cell.total > maxTotal) {
+                            maxTotal = cell.total;
+                        }
+                    }
+                }
+                
+                // Draw pixels
+                for (let y = 0; y < this.height; y++) {
+                    for (let x = 0; x < this.width; x++) {
+                        const pixelIndex = 4 * (y * this.width + x);
+                        const cellValue = cells[y][x].currentState === 1 ? 0 : 255;
+                        const totalRatio = cells[y][x].total / maxTotal;
+                        const hue = 240 * Math.abs(1 - totalRatio);
+                        
+                        let color;
+                        if (this.heatmap) {
+                            color = hslToRgb(hue / 360, 1, 0.5);
+                        } else {
+                            color = [cellValue, cellValue, cellValue];
+                        }
+                        
+                        imageData.data[pixelIndex + 0] = color[0];     // red
+                        imageData.data[pixelIndex + 1] = color[1];     // green
+                        imageData.data[pixelIndex + 2] = color[2];     // blue
+                        imageData.data[pixelIndex + 3] = 255;          // alpha
+                    }
+                }
+                
+                this.ctx.putImageData(imageData, 0, 0);
+            }
+            
+            update() {
+                this.drawGrid();
+                if (!this.stopRequested) {
+                    this.grid.nextGen();
+                    this.generation = this.grid.getGen();
+                    this.generationDisplay.textContent = this.generation;
+                    requestAnimationFrame(() => this.update());
+                }
+            }
+            
+            start() {
+                if (this.stopRequested) {
+                    this.stopRequested = false;
+                    requestAnimationFrame(() => this.update());
+                }
+            }
+            
+            resetButtonHandler() {
+                this.stopRequested = true;
+                this.startOver();
+                this.buttonText = "Play";
+                document.getElementById('playButton').querySelector('span').textContent = this.buttonText;
+            }
+            
+            heatmapButtonHandler() {
+                this.heatmap = !this.heatmap;
+                if (this.stopRequested) {
+                    this.drawGrid();
+                }
+            }
+            
+            playbackButtonHandler() {
+                if (this.stopRequested) {
+                    this.start();
+                    this.buttonText = "Pause";
+                } else {
+                    this.stopRequested = true;
+                    this.buttonText = "Play";
+                }
+                document.getElementById('playButton').querySelector('span').textContent = this.buttonText;
+            }
+            
+        }
+
+        // Initialize the game when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            const game = new GameOfLife(500, 500);
+        });
+    </script>
+</body>
+</html>
