@@ -19,28 +19,23 @@
             -moz-osx-font-smoothing: grayscale;
             background: #eee;
             font: normal 22px/25px 'Londrina Solid', sans-serif;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            -webkit-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
         }
         
         .App {
-            text-align: center;
-            height: 100vh;
-        }
-        
-        h1 {
-            margin-top: 1.5em;
-            padding-bottom: 0.75em;
-        }
-        
-        #gridCanvas {
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-content: center;
+            align-items: center;
+            text-align: center;
+            /* height: 100vh; */
+        }
+        
+        h1 {
+            /* /* margin-top: 1.5em; */
+            padding-bottom: 0.5em; 
         }
         
         canvas {
@@ -50,7 +45,11 @@
         }
         
         #buttonContainer {
-            align-self: center;
+            display:flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            /* align-self: center; */
         }
         
         button {
@@ -102,7 +101,7 @@
 <body>
     <div class="App">
         <h1>Conway's Game of Life</h1>
-        <div id="gridCanvas">
+        <div>
             <canvas id="canvas" width="500" height="500"></canvas>
             <div>
                 <h3>Generation: <span id="generation">0</span></h3>
